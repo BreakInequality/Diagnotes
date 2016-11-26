@@ -20,3 +20,6 @@ var init = function() {
 
 var mongoConnection = init();
 
+module.exports = {
+    createConnection: init
+};
