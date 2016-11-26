@@ -3,7 +3,9 @@ var bodyParser = require('body-parser');
 var app = express();
 var twilio = require('twilio');
 
-// var db = require('./config/db').createConnection();
+var diagnose = require('./diagnose').makeDiagnosis;
+
+var db = require('./config/db').createConnection();
 
 const port = process.env.PORT || 3000;
 
@@ -19,8 +21,13 @@ app.get('/hello', function(req, res) {
 });
 
 app.post('/sms', function(req, res) {
-  console.log(req.body);
-  res.send('Received SMS!');
+  var twilio = require('twilio');
+  var twiml = new twilio.TwimlResponse();
+  twiml.message('We have received your symptoms. You will be contacted with a diagnosis shortly');
+  res.writeHead(200, {'Content-Type': 'text/xml'});
+  res.end(twiml.toString());
+
+  diagnose(req.body.From, req.body.Body, db);
 });
 
 // TODO: listen to requests from Twilio here
