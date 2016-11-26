@@ -6,10 +6,10 @@ var mongodb = require('mongodb');
 
 var MongoClient = mongodb.MongoClient;
 
-var url = 'mongodb://localhost:27017/Diagnotes';
+var dbUrl = process.env.MONGO_URI || 'mongodb://localhost:27017/Diagnotes';
 
 var init = function() {
-    MongoClient.connect(url, function(error, db) {
+    MongoClient.connect(dbUrl, function(error, db) {
         if (error) {
             console.log('Unable to connect to connect to database: ', error);
         } else {

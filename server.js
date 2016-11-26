@@ -17,6 +17,8 @@ app.get('/hello', function(req, res) {
   res.send('HI!');
 });
 
+// TODO: listen to requests from Twilio here
+
 app.listen(port, function() {
   console.log('App Started on localhost:3000');
 });
