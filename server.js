@@ -1,6 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
+var twilio = require('twilio');
 
 // var db = require('./config/db').createConnection();
 
@@ -15,6 +16,11 @@ app.get('/', function(req, res) {
 
 app.get('/hello', function(req, res) {
   res.send('HI!');
+});
+
+app.post('/sms', function(req, res) {
+  console.log(req.body);
+  res.send('Received SMS!');
 });
 
 // TODO: listen to requests from Twilio here
