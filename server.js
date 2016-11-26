@@ -2,7 +2,9 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
 
-var db = require('./config/db').createConnection();
+// var db = require('./config/db').createConnection();
+
+const port = process.env.PORT || 3000;
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
@@ -15,6 +17,6 @@ app.get('/hello', function(req, res) {
   res.send('HI!');
 });
 
-app.listen(3000, function() {
+app.listen(port, function() {
   console.log('App Started on localhost:3000');
 });
