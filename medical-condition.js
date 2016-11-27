@@ -9,19 +9,22 @@ var symptomsJSON = { method: 'GET',
   }
 };
 
-var diagnosisJSON = { method: 'POST',
-  url: 'https://api.infermedica.com/v2/diagnosis',
-  headers: {
-    app_key: '60419814a9f4a76540b3940de5da6384',
-    app_id: 'dd20d4d6',
-    "content-type": "application/json"
-  },
-  body: {
-    sex:"male",
-    age:"29",
-    evidence: [ { "id": "s_21", "choice_id": "present" } ]
-  }
-};
+var diagnosisJSON = function(id, sex, age) {
+  return { method: 'POST',
+    url: 'https://api.infermedica.com/v2/diagnosis',
+    headers: {
+      app_key: '60419814a9f4a76540b3940de5da6384',
+      app_id: 'dd20d4d6',
+      "content-type": "application/json"
+    },
+    json: {
+      sex: sex,
+      age: age,
+      evidence: [ { "id": id, "choice_id": "present" } ]
+    }
+  };
+}
+
 
 var getAllSymptoms = function(callback) {
   var symptoms = [];
@@ -53,18 +56,17 @@ var getSymptomIds = function(symptoms, userSymptoms, callback) {
     });
   });
   if(typeof callback === 'function') {
-    callback(symptoms);
+    callback(symptomsArray);
   } else {
     throw new Error("ERROR CALLBACK FUNCTION");
   }
 };
 
 getAllSymptoms(function(symptoms, userSymptoms) {
-  getSymptomIds(symptoms, userSymptoms, function() {
-      request(diagnosisJSON, function(error, response, body) {
-        console.log("ERROR");
+  getSymptomIds(symptoms, userSymptoms, function(symptomsArray) {
+      request(diagnosisJSON(symptomsArray[0], "male", "29"), function(error, response, body) {
         if (error) throw new Error(error);
-        console.log(body);
+        console.log(body.conditions[0].name);
       });
   });
 });
