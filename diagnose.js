@@ -6,7 +6,7 @@
 var twilio = require('twilio');
 
 var makeDiagnosis = function(body, db) {
-    db.findOne({_id: body.From}, function(err, doc) {
+    db.collection('patients').findOne({_id: body.From}, function(err, doc) {
         if (err) {
             console.log('Error while fetching number: ' + body.From);
         } else {
@@ -14,7 +14,7 @@ var makeDiagnosis = function(body, db) {
                 console.err('Unexpected unfound doc: ' + body.From);
             } else {
                 doc['diagnosis'] = body.Body;
-                db.updateOne({_id: body.From}, {$set: {'symptoms': body.Body}});
+                db.collection('patients').updateOne({_id: body.From}, {$set: {'symptoms': body.Body}});
             }
         }
     })
@@ -59,7 +59,7 @@ var signUp = function(body, db) {
         'sex': details[2]
     };
 
-    db.insertOne(doc, function(err) {
+    db.collection('patients').insertOne(doc, function(err) {
         if (err) {
             console.log('Error inserting doc: ', err);
         }
