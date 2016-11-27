@@ -76,6 +76,29 @@ getAllSymptoms(function(symptoms, userSymptoms) {
   });
 });
 
+var conditionJSON = { method: 'GET',
+  url: 'https://www.googleapis.com/customsearch/v1',
+  headers: {
+    app_key: '60419814a9f4a76540b3940de5da6384',
+    app_id: 'dd20d4d6'
+  },
+  qs: {
+    q: 'temp',
+    key: 'AIzaSyAc6EV38LteoRe5xqzFMnoQcc6PsleVs2o',
+    cx: '018047257308793356501:z9lzppcxrme'
+  }
+};
+
+var getConditionURL = function() {
+    request(
+      conditionJSON, function(error, response, body){
+        console.log(JSON.parse(body).items[0].link);
+      }
+    );
+};
+
+getConditionURL();
+
 module.exports = {
   getAllSymptoms: getAllSymptoms
 };
