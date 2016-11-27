@@ -34,7 +34,7 @@ require('mongodb').MongoClient.connect(process.env.MONGO_URI || 'mongodb://local
       res.writeHead(200, {'Content-Type': 'text/xml'});
       res.end(twiml.toString());
       console.log(req.body);
-      diagnose(req.body.From, req.body.Body);
+      diagnose(req.body.From, req.body.Body, db);
     });
     app.listen(port, function() {
       console.log('App started on localhost:%s', port);
