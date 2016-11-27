@@ -50,7 +50,7 @@ var getSymptomIds = function(symptoms, userSymptoms, callback) {
 
   _.forEach(userSymptoms, function(userSymptom) {
     _.forEach(symptoms, function(symptom) {
-      if(symptom.name.toLowerCase().trim() == userSymptom.toLowerCase().trim()) {
+      if(symptom.name.toLowerCase() == userSymptom.toLowerCase()) {
         console.log('Pushed: ' + symptom.id);
         symptomsArray.push(symptom.id);
         return false;

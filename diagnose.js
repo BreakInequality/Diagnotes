@@ -103,7 +103,7 @@ var signUp = function(body, db) {
 var parseSymptoms = function(symptoms) {
     var parsedSymptoms = symptoms.split(',');
     for (var i = 0; i < parsedSymptoms.length; i++) {
-        parsedSymptoms[i] = parsedSymptoms[i].replace(/ /g, '');
+        parsedSymptoms[i] = parsedSymptoms[i].trim();
     }
     console.log('Parsed symptoms: ', parsedSymptoms);
 };
