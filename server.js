@@ -10,8 +10,8 @@ require('mongodb').MongoClient.connect(process.env.MONGO_URI || 'mongodb://local
     var bodyParser = require('body-parser');
     var app = express();
     var twilio = require('twilio');
-    var twilioClient = require('config/twilioClient');
-    var medicalCondition = require('medical-condition');
+    var twilioClient = require('./config/twilioClient');
+    var medicalCondition = require('./medical-condition');
 
     var diagnose = require('./diagnose').makeDiagnosis;
 
