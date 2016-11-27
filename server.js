@@ -33,8 +33,25 @@ require('mongodb').MongoClient.connect(process.env.MONGO_URI || 'mongodb://local
         res.end(twimlResponse.toString());
       });
     });
+
+    app.get('/diagnose', function(req, res) {
+      sendPendingDiagnoses(db, res);
+    });
+
     app.listen(port, function() {
       console.log('App started on localhost:%s', port);
     });
   }
+
 });
+
+
+var sendPendingDiagnoses = function(db, response) {
+  db.collection('patients').find({'diagnosis': {$exists: true}}, function(err, docs) {
+    if (err) {
+      console.log('Error while fetching pending diagnoses: ', err);
+    } else {
+      response.json(docs);
+    }
+  });
+};
