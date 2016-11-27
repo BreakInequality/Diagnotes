@@ -1,7 +1,7 @@
-var client = require('twilio')('AC92887f51ca4f5a18aa7fb6c32a744a98',
-    '754413a358b9dd6be22357f7fd2aac34');
+var client = require('twilio')('ACdb77e866bdb32278ab3f2a011b8e25be',
+    '4a238899bc93d73cfa126880d18bd18b');
 
-var sendingNumber = '+12268940259';
+var sendingNumber = '+12268940445';
 
 module.exports.sendSms = function(to, message) {
     client.messages.create({
