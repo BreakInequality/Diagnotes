@@ -25,6 +25,8 @@ var makeDiagnosis = function(body, db) {
                 var diseaseName = condInfo[0];
                 var prob = parseFloat(condInfo[1]);
 
+                console.log('Condition info: ' + condInfo);
+
                 var diseaseObj = {
                     "disease": diseaseName,
                     "probability": prob
