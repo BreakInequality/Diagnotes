@@ -106,4 +106,5 @@ var parseSymptoms = function(symptoms) {
         parsedSymptoms[i] = parsedSymptoms[i].trim();
     }
     console.log('Parsed symptoms: ', parsedSymptoms);
+    return parsedSymptoms;
 };
