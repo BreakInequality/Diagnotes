@@ -55,7 +55,7 @@ require('mongodb').MongoClient.connect(process.env.MONGO_URI || 'mongodb://local
           twilioClient.sendSms('+6476258688', condition_url);
         });
       });
-    }
+    };
 
     sendURL();
 

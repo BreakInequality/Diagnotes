@@ -7,6 +7,34 @@ var twilio = require('twilio');
 
 var makeDiagnosis = function(body, db) {
     db.collection('patients').updateOne({phone: body.From}, {$set: {symptoms: body.Body}});
+
+    var symptoms = parseSymptoms(body.Body);
+
+    db.collection('patients').findOne({'phone': body.From}).toArray(function(err, doc) {
+        if (err) {
+            console.log(err);
+        } else {
+            var age = doc.age.toString();
+            var sex = doc.sex;
+            if (sex.toLowerCase() == 'm')
+                sex = 'male';
+            else
+                sex = 'female';
+
+            require('./medical-condition').getConditionInfo(symptoms, sex, age, function(condInfo) {
+                var diseaseName = condInfo[0];
+                var prob = parseFloat(condInfo[1]);
+
+                var diseaseObj = {
+                    "disease": diseaseName,
+                    "probability": prob
+                };
+
+                db.collection('patients').updateOne({phone: body.From}, {$set: {diagnosis: diseaseObj}});
+            });
+        }
+    });
+
 };
 
 exports.getResponse = function(body, db, callback) {
@@ -67,8 +95,8 @@ var signUp = function(body, db) {
 };
 
 
-var handleSymptoms = function(symptoms, callback) {
-    var parsedSymptoms = symptoms.split(' ');
+var parseSymptoms = function(symptoms) {
+    var parsedSymptoms = symptoms.split(',');
     for (var i = 0; i < parsedSymptoms.length; i++) {
         parsedSymptoms[i] = parsedSymptoms[i].replace(/ /g, '');
     }

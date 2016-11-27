@@ -93,7 +93,7 @@ var conditionJSON = function(condition_name){
     cx: '018047257308793356501:z9lzppcxrme'
   }
 };
-}
+};
 
 var getConditionURL = function(condition_name, callback) {
   request(conditionJSON(condition_name), function(error, response, body) {
