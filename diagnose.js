@@ -35,6 +35,10 @@ var makeDiagnosis = function(body, db) {
                     "probability": prob
                 };
 
+                require('./medical-condition').getConditionURL(diseaseName, function(link) {
+                    db.collection('patients').updateOne({phone: body.From}, {$set: {url: link}});
+                });
+
                 db.collection('patients').updateOne({phone: body.From}, {$set: {diagnosis: diseaseObj}});
             });
         }
