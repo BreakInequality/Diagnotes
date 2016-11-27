@@ -13,6 +13,7 @@ var init = function() {
         if (error) {
             console.log('Unable to connect to connect to database: ', error);
         } else {
+            console.log('established db connection on %s', dbUrl);
             return db;
         }
     });
