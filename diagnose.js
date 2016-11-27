@@ -6,18 +6,7 @@
 var twilio = require('twilio');
 
 var makeDiagnosis = function(body, db) {
-    db.collection('patients').findOne({phone : body.From}, function(err, doc) {
-        if (err) {
-            console.log('Error while fetching number: ' + body.From);
-        } else {
-            if (doc == undefined) {
-                console.err('Unexpected unfound doc: ' + body.From);
-            } else {
-                doc['diagnosis'] = body.Body;
-                db.collection('patients').updateOne({_id: body.From}, {$set: {'symptoms': body.Body}});
-            }
-        }
-    })
+    db.collection('patients').updateOne({phone: body.From}, {$set: {symptoms: body.Body}});
 };
 
 exports.getResponse = function(body, db, callback) {
@@ -50,7 +39,7 @@ exports.getResponse = function(body, db, callback) {
 };
 
 var validateSignUp = function(text) {
-    if (text.includes('sign')) {
+    if (text.toLowerCase().includes('sign')) {
         var updatedString = text.substr(5);
         var arr = updatedString.split(',');
         console.log('Validated on text: ' + text, arr.length == 3);
