@@ -23,7 +23,7 @@ var makeDiagnosis = function(body, db) {
 exports.getResponse = function(body, db, callback) {
     var twiml;
     if (body.Body === 'sign up') {
-        return new twilio.TwimlResponse().message('Sign up with your name, age and sex in this format:\n sign Jashan S, 17, M');
+        return  callback(twilio.TwimlResponse().message('Sign up with your name, age and sex in this format:\n sign Jashan S, 17, M'));
     } else {
         db.collection('patients').findOne({'phone': body.From}, function(err, doc) {
             if (err) {
