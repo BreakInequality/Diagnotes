@@ -71,7 +71,11 @@ var signUp = function(body, db) {
         } else {
             console.log('Made insertion: ' + doc);
         }
-    })
+    });
+
+
+    var twiml = new twilio.TwimlResponse('Thanks for signing up. You may now request diagnoses');
+    callback(twiml);
 
 };
 
@@ -82,7 +86,4 @@ var handleSymptoms = function(symptoms, callback) {
         parsedSymptoms[i] = parsedSymptoms[i].replace(/ /g, '');
     }
     console.log('Parsed symptoms: ', parsedSymptoms);
-
-    var twiml = new twilio.TwimlResponse('Thanks for signing up. You may now request diagnoses');
-    callback(twiml);
 };
