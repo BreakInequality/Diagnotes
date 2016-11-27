@@ -47,7 +47,7 @@ var getAllSymptoms = function(callback) {
 
 var getSymptomIds = function(symptoms, userSymptoms, callback) {
   var symptomsArray = [];
-
+  console.log('User symptoms: ' + userSymptoms);
   _.forEach(userSymptoms, function(userSymptom) {
     _.forEach(symptoms, function(symptom) {
       if(symptom.name.toLowerCase() == userSymptom.toLowerCase()) {
