@@ -44,7 +44,7 @@ var getAllSymptoms = function(callback) {
 };
 
 var getSymptomIds = function(symptoms, userSymptoms, callback) {
-  userSymptoms = ["headache"];
+  userSymptoms = ["headache", "back pain"];
   var symptomsArray = [];
 
   _.forEach(userSymptoms, function(userSymptom) {
@@ -62,12 +62,17 @@ var getSymptomIds = function(symptoms, userSymptoms, callback) {
   }
 };
 
+var conditions = [];
+
 getAllSymptoms(function(symptoms, userSymptoms) {
   getSymptomIds(symptoms, userSymptoms, function(symptomsArray) {
-      request(diagnosisJSON(symptomsArray[0], "male", "29"), function(error, response, body) {
+    for(sypmtomId of symptomsArray) {
+      request(diagnosisJSON(sypmtomId, "male", "29"), function(error, response, body) {
         if (error) throw new Error(error);
-        console.log(body.conditions[0].name);
+        conditions.push(body.conditions[0].name);
+        console.log(conditions);
       });
+    }
   });
 });
 
