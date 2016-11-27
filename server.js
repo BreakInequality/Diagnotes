@@ -38,12 +38,27 @@ require('mongodb').MongoClient.connect(process.env.MONGO_URI || 'mongodb://local
       sendPendingDiagnoses(db, res);
     });
 
+    app.delete('/diagnose', function(req, res) {
+      completeDiagnosis(db, req.body, res);
+    });
+
     app.listen(port, function() {
       console.log('App started on localhost:%s', port);
     });
   }
 
 });
+
+var completeDiagnosis = function(db, tel, response) {
+  db.collection('patients').removeOne({phone: tel}, function(err, docs) {
+    if (err) {
+      console.log('Error while deleting ' + tel);
+      response.send(500);
+    } else {
+      response.send(200);
+    }
+  });
+};
 
 
 var sendPendingDiagnoses = function(db, response) {
