@@ -46,7 +46,6 @@ var getAllSymptoms = function(callback) {
 };
 
 var getSymptomIds = function(symptoms, userSymptoms, callback) {
-  userSymptoms = ["headache", "back pain"];
   var symptomsArray = [];
 
   _.forEach(userSymptoms, function(userSymptom) {
