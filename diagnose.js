@@ -6,7 +6,7 @@
 var twilio = require('twilio');
 
 var makeDiagnosis = function(body, db) {
-    db.collection('patients').findOne({_id: body.From}, function(err, doc) {
+    db.collection('patients').findOne({phone : body.From}, function(err, doc) {
         if (err) {
             console.log('Error while fetching number: ' + body.From);
         } else {
@@ -31,9 +31,7 @@ exports.getResponse = function(body, db, callback) {
                 callback(twiml);
             } else if (!doc){
                 if (validateSignUp(body.Body)) {
-                    signUp(body, db);
-                    twiml = new twilio.TwimlResponse('Thanks for signing up. You may now request diagnoses');
-                    callback(twiml);
+                    signUp(body, db, callback);
                 } else {
                     twiml = new twilio.TwimlResponse().message('Ensure you properly sign up before requesting a diagnosis');
                     callback(twiml);
@@ -70,18 +68,21 @@ var signUp = function(body, db) {
     db.collection('patients').insertOne(doc, function(err) {
         if (err) {
             console.log('Error inserting doc: ', err);
+        } else {
+            console.log('Made insertion: ' + doc);
         }
     })
 
 };
 
 
-var handleSymptoms = function(symptoms) {
+var handleSymptoms = function(symptoms, callback) {
     var parsedSymptoms = symptoms.split(' ');
     for (var i = 0; i < parsedSymptoms.length; i++) {
         parsedSymptoms[i] = parsedSymptoms[i].replace(/ /g, '');
     }
     console.log('Parsed symptoms: ', parsedSymptoms);
 
-
+    var twiml = new twilio.TwimlResponse('Thanks for signing up. You may now request diagnoses');
+    callback(twiml);
 };
