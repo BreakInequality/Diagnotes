@@ -48,17 +48,6 @@ require('mongodb').MongoClient.connect(process.env.MONGO_URI || 'mongodb://local
       console.log('App started on localhost:%s', port);
     });
 
-
-    var sendURL = function(){
-      medicalCondition.getConditionInfo(['headache', 'back pain'], 'male', '20', function(condition_info){
-        medicalCondition.getConditionURL(condition_info[0], function(condition_url){
-          twilioClient.sendSms('+6476258688', condition_url);
-        });
-      });
-    };
-
-    sendURL();
-
   }
 
 
