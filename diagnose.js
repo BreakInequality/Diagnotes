@@ -20,25 +20,33 @@ var makeDiagnosis = function(body, db) {
     })
 };
 
-exports.getResponse = function(body, db) {
+exports.getResponse = function(body, db, callback) {
+    var twiml;
     if (body.Body === 'sign up') {
         return new twilio.TwimlResponse().message('Sign up with your name, age and sex in this format:\n sign Jashan S, 17, M');
     } else {
         db.collection('patients').findOne({'phone': body.From}, function(err, doc) {
             if (err) {
-                return new twilio.TwimlResponse().message('There was an error; please try again later');
+                twiml =  new twilio.TwimlResponse().message('There was an error; please try again later');
+                callback(twiml);
             } else if (!doc){
                 if (validateSignUp(body.Body)) {
                     signUp(body, db);
-                    return new twilio.TwimlResponse('Thanks for signing up. You may now request diagnoses');
+                    twiml = new twilio.TwimlResponse('Thanks for signing up. You may now request diagnoses');
+                    callback(twiml);
+                } else {
+                    twiml = new twilio.TwimlResponse().message('Ensure you properly sign up before requesting a diagnosis');
+                    callback(twiml);
                 }
-                return new twilio.TwimlResponse().message('Ensure you properly sign up before requesting a diagnosis');
             } else {
                 makeDiagnosis(body, db);
-                return new twilio.TwimlResponse().message('Your diagnosis is being processed. You will be contacted shortly');
+                twiml = new twilio.TwimlResponse().message('Your diagnosis is being processed. You will be contacted shortly');
+                callback(twiml);
             }
         });
     }
+
+
 };
 
 var validateSignUp = function(text) {

@@ -28,10 +28,10 @@ require('mongodb').MongoClient.connect(process.env.MONGO_URI || 'mongodb://local
 
 // Handles incoming requests from Twilio
     app.post('/sms', function(req, res) {
-      var twimlResponse = require('./diagnose').getResponse(req.body, db);
-      res.writeHead(200, {'Content-Type': 'text/xml'});
-      res.end(twimlResponse.toString());
-
+      require('./diagnose').getResponse(req.body, db, function(twimlResponse) {
+        res.writeHead(200, {'Content-Type': 'text/xml'});
+        res.end(twimlResponse.toString());
+      });
     });
     app.listen(port, function() {
       console.log('App started on localhost:%s', port);
