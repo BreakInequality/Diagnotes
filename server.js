@@ -47,7 +47,7 @@ require('mongodb').MongoClient.connect(process.env.MONGO_URI || 'mongodb://local
 
 
 var sendPendingDiagnoses = function(db, response) {
-  db.collection('patients').find({'diagnosis': {$exists: true}}, function(err, docs) {
+  db.collection('patients').find({'diagnosis': {$exists: true}}).toArray(function(err, docs) {
     if (err) {
       console.log('Error while fetching pending diagnoses: ', err);
     } else {
