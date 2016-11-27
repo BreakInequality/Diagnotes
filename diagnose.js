@@ -61,7 +61,7 @@ var validateSignUp = function(text) {
 var signUp = function(body, db) {
     var details = body.Body.substr(4).split(',');
     var doc = {
-        '_id': body.From,
+        'phone': body.From,
         'name': details[0],
         'age': parseInt(details[1], 10),
         'sex': details[2]
