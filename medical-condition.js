@@ -44,7 +44,7 @@ var getAllSymptoms = function(callback) {
 };
 
 var getSymptomIds = function(symptoms, userSymptoms, callback) {
-  userSymptoms = ["headache"];
+  userSymptoms = ["headache", "back pain"];
   var symptomsArray = [];
 
   _.forEach(userSymptoms, function(userSymptom) {
@@ -62,14 +62,42 @@ var getSymptomIds = function(symptoms, userSymptoms, callback) {
   }
 };
 
+var conditions = [];
+
 getAllSymptoms(function(symptoms, userSymptoms) {
   getSymptomIds(symptoms, userSymptoms, function(symptomsArray) {
-      request(diagnosisJSON(symptomsArray[0], "male", "29"), function(error, response, body) {
+    for(sypmtomId of symptomsArray) {
+      request(diagnosisJSON(sypmtomId, "male", "29"), function(error, response, body) {
         if (error) throw new Error(error);
-        console.log(body.conditions[0].name);
+        conditions.push(body.conditions[0].name);
+        console.log(conditions);
       });
+    }
   });
 });
+
+var conditionJSON = { method: 'GET',
+  url: 'https://www.googleapis.com/customsearch/v1',
+  headers: {
+    app_key: '60419814a9f4a76540b3940de5da6384',
+    app_id: 'dd20d4d6'
+  },
+  qs: {
+    q: 'temp',
+    key: 'AIzaSyAc6EV38LteoRe5xqzFMnoQcc6PsleVs2o',
+    cx: '018047257308793356501:z9lzppcxrme'
+  }
+};
+
+var getConditionURL = function() {
+    request(
+      conditionJSON, function(error, response, body){
+        console.log(JSON.parse(body).items[0].link);
+      }
+    );
+};
+
+getConditionURL();
 
 module.exports = {
   getAllSymptoms: getAllSymptoms
