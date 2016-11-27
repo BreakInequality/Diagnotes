@@ -31,7 +31,7 @@ exports.getResponse = function(body, db, callback) {
                 callback(twiml);
             } else if (!doc){
                 if (validateSignUp(body.Body)) {
-                    var twiml = new twilio.TwimlResponse('Thanks for signing up. You may now request diagnoses');
+                    twiml = new twilio.TwimlResponse('Thanks for signing up. You may now request diagnoses');
                     callback(twiml);
                     signUp(body, db, callback);
                 } else {
