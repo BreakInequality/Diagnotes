@@ -31,6 +31,8 @@ exports.getResponse = function(body, db, callback) {
                 callback(twiml);
             } else if (!doc){
                 if (validateSignUp(body.Body)) {
+                    var twiml = new twilio.TwimlResponse('Thanks for signing up. You may now request diagnoses');
+                    callback(twiml);
                     signUp(body, db, callback);
                 } else {
                     twiml = new twilio.TwimlResponse().message('Ensure you properly sign up before requesting a diagnosis');
@@ -72,10 +74,6 @@ var signUp = function(body, db) {
             console.log('Made insertion: ' + doc);
         }
     });
-
-
-    var twiml = new twilio.TwimlResponse('Thanks for signing up. You may now request diagnoses');
-    callback(twiml);
 
 };
 
