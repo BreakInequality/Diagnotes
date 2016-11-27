@@ -10,7 +10,7 @@ var makeDiagnosis = function(body, db) {
 
     var symptoms = parseSymptoms(body.Body);
 
-    db.collection('patients').findOne({'phone': body.From}).toArray(function(err, doc) {
+    db.collection('patients').findOne({'phone': body.From}, function(err, doc) {
         if (err) {
             console.log(err);
         } else {
