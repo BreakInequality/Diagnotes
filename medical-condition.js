@@ -67,6 +67,10 @@ var getConditionInfo = function (userSymptoms, sex, age, callback){
   getAllSymptoms(function(symptoms) {
     getSymptomIds(symptoms, userSymptoms, function(symptomsArray) {
       request(diagnosisJSON(symptomsArray, sex, age), function(error, response, body) {
+        console.log('Req symptoms: ' + symptomsArray);
+        console.log('Req sex: ' + sex);
+        console.log('Reg age: ' + age);
+
         if (error) throw new Error(error);
         console.log('Response body:', body);
         var condition_info = [body.conditions[0].name, body.conditions[0].probability];

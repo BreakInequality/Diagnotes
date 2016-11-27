@@ -15,11 +15,14 @@ var makeDiagnosis = function(body, db) {
             console.log(err);
         } else {
             var age = doc.age.toString();
+            console.log('db age: ' + age);
             var sex = doc.sex;
             if (sex.toLowerCase() == 'm')
                 sex = 'male';
             else
                 sex = 'female';
+
+            console.log('db sex: ' + sex);
 
             require('./medical-condition').getConditionInfo(symptoms, sex, age, function(condInfo) {
                 var diseaseName = condInfo[0];
